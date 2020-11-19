@@ -1,0 +1,36 @@
+{
+    "name": "movie_api",
+    "version": "1.0.0",
+    "description": "Look Up Flix!",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mrumiker/flix-lookup-app.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mrumiker/flix-lookup-app/issues"
+    },
+    "homepage": "https://github.com/mrumiker/flix-lookup-app#readme",
+    "dependencies": {
+        "bcrypt": "^5.0.0",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "express-validator": "^6.6.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.10.13",
+        "morgan": "^1.10.0",
+        "nodemon": "^2.0.6",
+        "passport": "^0.4.1",
+        "passport-jwt": "^4.0.0",
+        "passport-local": "^1.0.0"
+    }
+}
