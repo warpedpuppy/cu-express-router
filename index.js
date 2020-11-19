@@ -3,11 +3,12 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   cors = require('cors'),
-  { check, validationResult } = require('express-validator');
+  { check, validationResult } = require('express-validator'),
+  moviesRouter = require('./movies/movies-router');
 
 const Models = require('./models.js');
 
-const Movies = Models.Movie;
+// const Movies = Models.Movie;
 const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB', {
@@ -31,6 +32,8 @@ app.use(express.static('public'));
 
 app.use(bodyParser.json());
 
+app.use('/movies', moviesRouter)
+
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({
@@ -46,61 +49,61 @@ app.use(cors({
 
 let auth = require('./auth')(app);
 
-//Get all movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.find()
-  .then((movies) => {
-    res.status(201).json(movies);
-  })
-  .catch((error) => {
-    console.error(error);
-    res.status(500).send('Error: ' + error);
-  });
-});
+//Get all moviespassport.authenticate('jwt', { session: false }), 
+// app.get('/movies', async (req, res) => {
+
+//   let movies = await Movies.find();
+
+//   if (movies) {
+//     res.status(201).json(movies);
+//   } else {
+//     res.status(500).send('Error: ' + error);
+//   }
+// });
 
 //Get one movie by title
-app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne( { Title: req.params.title })
-  .then((movie) => {
-    res.status(201).json(movie);
-  })
-  .catch((error) => {
-    console.error(error);
-    res.status(500).send('Error: ' + error);
-  });
-});
+// app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
+//   Movies.findOne( { Title: req.params.title })
+//   .then((movie) => {
+//     res.status(201).json(movie);
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//     res.status(500).send('Error: ' + error);
+//   });
+// });
 
 //Get genre info by genre name
-app.get('/movies/genres/:genre', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne( { 'Genre.Name': req.params.genre })
-  .then((movie) => {
-    res.status(201).send(movie.Genre.Description);
-  })
-  .catch((error) => {
-    console.error(error);
-    res.status(500).send('Error: ' + error);
-  });
-});
+// app.get('/movies/genres/:genre', passport.authenticate('jwt', { session: false }), (req, res) => {
+//   Movies.findOne( { 'Genre.Name': req.params.genre })
+//   .then((movie) => {
+//     res.status(201).send(movie.Genre.Description);
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//     res.status(500).send('Error: ' + error);
+//   });
+// });
 
 //Get director bio, birth, and death from name
-app.get('/movies/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne( { 'Director.Name': req.params.name })
-  .then((movie) => {
-    if (movie.Director.Death) {
-      res.status(201).send(`${movie.Director.Bio}
-        Born: ${movie.Director.Birth}
-        Died: ${movie.Director.Death}`);
-    }
-    else {
-      res.status(201).send(`${movie.Director.Bio}
-        Born: ${movie.Director.Birth}`);
-    }
-  })
-  .catch((error) => {
-    console.error(error);
-    res.status(500).send('Error: ' + error);
-  });
-});
+// app.get('/movies/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
+//   Movies.findOne( { 'Director.Name': req.params.name })
+//   .then((movie) => {
+//     if (movie.Director.Death) {
+//       res.status(201).send(`${movie.Director.Bio}
+//         Born: ${movie.Director.Birth}
+//         Died: ${movie.Director.Death}`);
+//     }
+//     else {
+//       res.status(201).send(`${movie.Director.Bio}
+//         Born: ${movie.Director.Birth}`);
+//     }
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//     res.status(500).send('Error: ' + error);
+//   });
+// });
 
 //Add a user
 app.post('/users',
